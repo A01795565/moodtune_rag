@@ -15,7 +15,7 @@ class RAGPipeline:
         self._llm: LLMClient | None = None
 
     def emotion_to_params(self, emotion: str) -> Dict[str, Tuple[float, float]]:
-        """Mapea emoción → rangos (valence, energy)."""
+        """Mapea emoción -> rangos (valence, energy)."""
         params = Config.EMOTION_PARAMS.get(emotion.lower())
         if not params:
             # fallback
@@ -23,12 +23,18 @@ class RAGPipeline:
         return params
 
     def search_tracks(self, emotion: str, min_tracks: int = 20, max_relax_steps: int = 2) -> List[Dict[str, Any]]:
-        """Busca pistas para la emoción; relaja rangos si no hay suficientes."""
+        """Busca pistas para la emoción; relaja rangos si no hay suficientes.
+
+        Reglas adicionales cuando se recurre a LLM:
+        - Verifica contra la KB (OpenSearch) si la canción ya existe y la omite.
+        - Busca nuevas canciones (sugeridas por el LLM) para completar según la emoción.
+        - Evita duplicados por (title, artist) y por URI/ID cuando es posible.
+        """
         base = self.emotion_to_params(emotion)
         valence = base.get("valence")
         energy = base.get("energy")
 
-        # Intento estricto → relajar dentro de límites
+        # Intento estricto + relajar dentro de limites
         for _ in range(max_relax_steps + 1):
             tracks = self.os_repo.search_tracks_by_emotion(
                 emotion=emotion.lower(),
@@ -46,13 +52,47 @@ class RAGPipeline:
         try:
             if self._llm is None:
                 self._llm = LLMClient()
-            suggestions = self._llm.recommend_songs(emotion, count=max(min_tracks, 20))
-            # preparar pares para resolución batch
-            pairs: List[Dict[str, str]] = []
-            for s in suggestions:
-                title = (s.get("title") or "").strip()
-                artist = (s.get("artist") or "").strip()
-                if title and artist:
+            # Conjunto de (title, artist) ya presentes para evitar duplicados
+            existing_keys = set()
+            for t in (tracks or []):
+                ti = (t.get("title") or "").strip().lower()
+                ar = (t.get("artist") or "").strip().lower()
+                if ti and ar:
+                    existing_keys.add((ti, ar))
+
+            # Pedimos sugerencias al LLM, filtrando las que ya existan en la KB
+            # e iteramos hasta reunir suficientes pares nuevos o alcanzar un maximo.
+            desired = max(min_tracks, 20)
+            max_iters = 3
+            pairs: List[Dict[str, str]] = []  # pares NUEVOS (no en KB)
+            iter_idx = 0
+            while len(pairs) < desired and iter_idx < max_iters:
+                iter_idx += 1
+                avoid_list = [{"title": t, "artist": a} for (t, a) in list(existing_keys)[:100]]
+                guide = (
+                    f"valence~{base['valence'][0]:.2f}-{base['valence'][1]:.2f}, "
+                    f"energy~{base['energy'][0]:.2f}-{base['energy'][1]:.2f}. "
+                    f"Evita duplicados exactos de título+artista listados."
+                )
+                suggestions = self._llm.curate_songs(emotion, count=desired, avoid=avoid_list, guidance=guide)
+                for s in suggestions:
+                    title = (s.get("title") or "").strip()
+                    artist = (s.get("artist") or "").strip()
+                    if not title or not artist:
+                        continue
+                    key = (title.lower(), artist.lower())
+                    if key in existing_keys:
+                        # Ya esta en resultados actuales
+                        continue
+                    # Consultar la KB para ver si ya existe este titulo+artista
+                    try:
+                        found_in_kb = self.os_repo.find_by_title_artist(title, artist, limit=1)
+                    except Exception:
+                        found_in_kb = []
+                    if found_in_kb:
+                        # Ya existe en el indice: no lo consideramos como NUEVO
+                        continue
+                    existing_keys.add(key)  # reservar para evitar repeticiones posteriores
                     pairs.append({"title": title, "artist": artist})
 
             msc = MusicServiceClient(base_url=Config.MUSIC_SERVICE_URL)
@@ -67,11 +107,11 @@ class RAGPipeline:
                 except Exception:
                     feats = {}
 
-            # Construir salida con valence/energy (features si hay; si no, centrado por emoción)
+            # Construir salida con valence/energy (features si hay; si no, centrado por emocion)
             v_mid = round((base["valence"][0] + base["valence"][1]) / 2.0, 2)
             e_mid = round((base["energy"][0] + base["energy"][1]) / 2.0, 2)
             found: List[Dict[str, Any]] = []
-            seen = set()
+            seen = set(existing_keys)  # arrancar con lo ya existente para evitar duplicados
             for t in resolved:
                 title = t.get("title")
                 artist = t.get("artist")
@@ -98,7 +138,20 @@ class RAGPipeline:
                     "energy": eng,
                 })
 
-            merged = tracks + [t for t in found if t not in tracks]
+            # Fusionar manteniendo prioridad a lo que ya salio de la KB, agregando solo NUEVOS
+            # y garantizando no repetirse por (title, artist)
+            merged: List[Dict[str, Any]] = []
+            merged_seen = set()
+            for lst in (tracks or []), found:
+                for it in lst:
+                    k = ((it.get("title") or "").strip().lower(), (it.get("artist") or "").strip().lower())
+                    if not k[0] or not k[1]:
+                        continue
+                    if k in merged_seen:
+                        continue
+                    merged_seen.add(k)
+                    merged.append(it)
+
             return merged[: max(min_tracks * 2, 50)] if merged else found
         except Exception:
             return tracks  # fallback final

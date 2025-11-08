@@ -1,9 +1,9 @@
 """Cliente/repositorio de OpenSearch para documentos de pistas.
 
 Expone operaciones comunes:
-- asegurar existencia del índice con el mapping esperado,
+- asegurar existencia del indice con el mapping esperado,
 - indexar/upsert de documentos,
-- búsqueda por emoción con filtros de valence/energy,
+- busqueda por emocion con filtros de valence/energy,
 - conteo de documentos.
 """
 
@@ -13,7 +13,7 @@ from .config import Config
 
 
 class OpenSearchRepo:
-    """Encapsula las operaciones contra OpenSearch para el índice de tracks."""
+    """Encapsula las operaciones contra OpenSearch para el indice de tracks."""
 
     def __init__(self):
         self.client = OpenSearch(
@@ -25,10 +25,10 @@ class OpenSearchRepo:
         self.index = Config.OS_INDEX_TRACKS
 
     def search_tracks_by_emotion(self, emotion: str, valence: tuple, energy: tuple, limit: int = 20) -> List[Dict[str, Any]]:
-        """Busca documentos por emoción aplicando filtros de `valence` y `energy`.
+        """Busca documentos por emocion aplicando filtros de `valence` y `energy`.
 
         Devuelve una lista de fuentes (_source) con los campos relevantes.
-        Si el índice no existe (dev), lo crea y retorna lista vacía.
+        Si el indice no existe (dev), lo crea y retorna lista vacia.
         """
         must_filters = []
         if valence:
@@ -83,7 +83,7 @@ class OpenSearchRepo:
         return indexed
 
     def ensure_index_exists(self) -> None:
-        """Crea el índice con mapping por defecto si no existe (modo dev)."""
+        """Crea el indice con mapping por defecto si no existe (modo dev)."""
         try:
             if not self.client.indices.exists(self.index):
                 # Create with current mapping (align with docs/opensearch_index_mapping.json)
@@ -145,7 +145,7 @@ class OpenSearchRepo:
             pass
 
     def count(self) -> int:
-        """Devuelve el total de documentos en el índice (o 0 si no existe)."""
+        """Devuelve el total de documentos en el indice (o 0 si no existe)."""
         try:
             res = self.client.count(index=self.index)
             return int(res.get("count", 0))
@@ -155,7 +155,7 @@ class OpenSearchRepo:
             return 0
 
     def find_by_title_artist(self, title: str, artist: str, limit: int = 1) -> List[Dict[str, Any]]:
-        """Busca por título y artista aproximados en el índice."""
+        """Busca por titulo y artista aproximados en el indice."""
         try:
             body = {
                 "size": max(1, limit),
@@ -179,7 +179,7 @@ class OpenSearchRepo:
             return []
 
     def delete_synthetic_seed(self) -> int:
-        """Elimina documentos de la siembra sintética previa (prefijo 'seed-')."""
+        """Elimina documentos de la siembra sintactica previa (prefijo 'seed-')."""
         try:
             body = {
                 "query": {
@@ -198,7 +198,7 @@ class OpenSearchRepo:
             return 0
 
     def recreate_index(self) -> None:
-        """Elimina el índice y lo crea de nuevo con el mapping actual."""
+        """Elimina el indice y lo crea de nuevo con el mapping actual."""
         try:
             if self.client.indices.exists(self.index):
                 self.client.indices.delete(index=self.index)

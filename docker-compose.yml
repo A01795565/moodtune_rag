@@ -48,20 +48,20 @@ services:
     env_file:
       - .env
     environment:
-      - DEBUG=true
-      - CORS_ORIGINS=*
-      - OS_HOST=opensearch
-      - OS_PORT=9200
-      - OS_USER=admin
-      - OS_PASSWORD=admin
-      - OS_USE_SSL=false
-      - OS_VERIFY_CERTS=false
+      - DEBUG=${DEBUG}
+      - CORS_ORIGINS=${CORS_ORIGINS}
+      - OS_HOST=${OS_HOST}
+      - OS_PORT=${OS_PORT}
+      - OS_USER=${OS_USER}
+      - OS_PASSWORD=${OS_PASSWORD}
+      - OS_USE_SSL=${OS_USE_SSL}
+      - OS_VERIFY_CERTS=${OS_VERIFY_CERTS}
       # --- Secure mode (usar si habilitas seguridad) ---
-      # - OS_USE_SSL=true
-      # - OS_VERIFY_CERTS=false  # certificados self-signed en local
-      - OS_INDEX_TRACKS=moodtune_tracks
-      - OPENAI_MODEL=gpt-4o-mini
-      - MUSIC_SERVICE_URL=http://host.docker.internal:8020
+      # - OS_USE_SSL=${OS_USE_SSL}
+      # - OS_VERIFY_CERTS=${OS_VERIFY_CERTS}  # certificados self-signed en local
+      - OS_INDEX_TRACKS=${OS_INDEX_TRACKS}
+      - OPENAI_MODEL=${OPENAI_MODEL}
+      - MUSIC_SERVICE_URL=${MUSIC_SERVICE_URL}
     ports:
       - "8010:8010"
     depends_on:

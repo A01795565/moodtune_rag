@@ -1,10 +1,10 @@
-﻿"""InicializaciÃ³n de la app Flask para el servicio MoodTune RAG.
+"""Inicializacion de la app Flask para el servicio MoodTune RAG.
 
 Responsabilidades principales:
-- Configurar CORS segÃºn variables de entorno.
-- Registrar blueprints (salud, RAG, LLM y utilidades de administraciÃ³n).
-- Al iniciar en modo desarrollo, crear el Ã­ndice en OpenSearch y (opcionalmente)
-  precargar datos sintÃ©ticos si el Ã­ndice estÃ¡ vacÃ­o para evitar errores 404.
+- Configurar CORS segun variables de entorno.
+- Registrar blueprints (salud, RAG, LLM y utilidades de administracion).
+- Al iniciar en modo desarrollo, crear el indice en OpenSearch y (opcionalmente)
+  precargar datos sintacticos si el indice esta vacio para evitar errores 404.
 """
 
 from flask import Flask, jsonify
@@ -21,11 +21,11 @@ from .routes.admin import bp as admin_bp
 
 
 def create_app():
-    # Crear app y cargar configuraciÃ³n desde Config
+    # Crear app y cargar configuracion desde Config
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Habilitar CORS si estÃ¡ disponible la extensiÃ³n
+    # Habilitar CORS si esta disponible la extension
     if CORS:
         origins = Config.CORS_ORIGINS if hasattr(Config, 'CORS_ORIGINS') else '*'
         CORS(app, resources={r"/*": {"origins": origins}}, supports_credentials=True)
@@ -41,11 +41,11 @@ def create_app():
 
     @app.get("/")
     def root():
-        # Ruta raÃ­z simple para inspecciÃ³n rÃ¡pida
+        # Ruta raiz simple para inspeccion rapida
         return jsonify({"name": "moodtune_rag", "status": "ok"}), 200
 
-    # Comodidad para desarrollo: asegurar Ã­ndice en OpenSearch y
-    # precargar datos sintÃ©ticos si estÃ¡ vacÃ­o (evita errores 404/Ã­ndice no encontrado)
+    # Comodidad para desarrollo: asegurar indice en OpenSearch y
+    # precargar datos sintacticos si esta vacio (evita errores 404/indice no encontrado)
     try:
         from .src.opensearch_client import OpenSearchRepo
         from .src.config import Config as _Cfg
@@ -62,5 +62,4 @@ def create_app():
         pass
 
     return app
-
 

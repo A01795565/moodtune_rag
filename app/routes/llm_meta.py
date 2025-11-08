@@ -10,7 +10,7 @@ bp = Blueprint("llm", __name__)
 
 @bp.post("/playlist-meta")
 def playlist_meta():
-    """Genera título y descripción de playlist para una emoción."""
+    """Genera titulo y descripcion de playlist para una emocion."""
     try:
         p = request.get_json(force=True) or {}
         emotion = (p.get("emotion") or "relaxed").lower()
@@ -24,7 +24,7 @@ def playlist_meta():
 
 @bp.post("/answer")
 def answer_with_emotion():
-    """Responde un prompt usando emoción + contexto recuperado por RAG."""
+    """Responde un prompt usando emocion + contexto recuperado por RAG."""
     try:
         p = request.get_json(force=True) or {}
         emotion = (p.get("emotion") or "relaxed").lower()
@@ -32,7 +32,7 @@ def answer_with_emotion():
         if not prompt:
             return jsonify({"error": "prompt requerido"}), 400
 
-        # Recuperar algunas pistas como contexto para la emoción
+        # Recuperar algunas pistas como contexto para la emocion
         repo = OpenSearchRepo()
         rag = RAGPipeline(repo)
         context_items = rag.search_tracks(emotion=emotion, min_tracks=20)

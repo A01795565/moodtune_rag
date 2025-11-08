@@ -1,8 +1,8 @@
-"""Siembra documentos vía LLM + moodtune_music (resolve-batch) con enriquecimiento.
+"""Siembra documentos via LLM + moodtune_music (resolve-batch) con enriquecimiento.
 
-Flujo por emoción:
+Flujo por emocion:
 - Pide al LLM una lista de {title, artist} (per_emotion entradas).
-- Resuelve en lote vía `moodtune_music` (/catalog/resolve-batch).
+- Resuelve en lote via `moodtune_music` (/catalog/resolve-batch).
 - Si hay items de Spotify, consulta audio-features para obtener valence/energy.
 - Construye documentos normalizados y los indexa en OpenSearch.
 """

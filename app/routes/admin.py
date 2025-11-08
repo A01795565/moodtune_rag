@@ -1,8 +1,8 @@
 """Endpoints administrativos (solo uso en desarrollo).
 
 La precarga usa el servicio `moodtune_music` para obtener recomendaciones
-y audio-features y poblar OpenSearch. Para reconstrucción completa, se
-recrea el índice y se vuelve a sembrar.
+y audio-features y poblar OpenSearch. Para reconstruccion completa, se
+recrea el indice y se vuelve a sembrar.
 """
 from flask import Blueprint, jsonify, request
 from ..src.seed_data import seed_knowledge
@@ -14,7 +14,7 @@ bp = Blueprint("admin", __name__)
 
 @bp.post("/seed")
 def seed():
-    """Precarga el índice con datos obtenidos desde moodtune_music.
+    """Precarga el indice con datos obtenidos desde moodtune_music.
 
     Body JSON opcional: { per_emotion?: int }
     """
@@ -29,7 +29,7 @@ def seed():
 
 @bp.post("/rebuild")
 def rebuild():
-    """Recrea el índice y reingesta la KB desde moodtune_music.
+    """Recrea el indice y reingesta la KB desde moodtune_music.
 
     Body JSON opcional: { per_emotion?: int }
     """

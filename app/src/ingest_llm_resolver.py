@@ -1,7 +1,7 @@
-"""Ingesta de KB basada 100% en LLM + resolución pública (iTunes Search).
+"""Ingesta de KB basada 100% en LLM + resolucion publica (iTunes Search).
 
 Flujo:
-- Para cada emoción, pedir al LLM una lista de canciones (título/artist).
+- Para cada emocion, pedir al LLM una lista de canciones (titulo/artist).
 - Resolver cada sugerencia contra iTunes Search API.
 - Indexar documentos normalizados en OpenSearch (sin depender de Spotify).
 """
@@ -13,8 +13,6 @@ from .llm import LLMClient
 from .opensearch_client import OpenSearchRepo
 from .config import Config
 import requests
-
-
 
 
 def _resolve_via_music_service(title: str, artist: str, limit: int = 1) -> List[Dict[str, Any]]:
@@ -30,7 +28,7 @@ def _resolve_via_music_service(title: str, artist: str, limit: int = 1) -> List[
 
 
 def _resolve_batch_via_music_service(pairs: List[Dict[str, str]], per_item_limit: int = 1) -> List[Dict[str, Any]]:
-    """Envía una sola petición al servicio de música para resolver varios título/artista.
+    """Envia una sola peticion al servicio de musica para resolver varios titulo/artista.
 
     pairs: lista de { title, artist }
     Devuelve una lista de objetos normalizados (uno por pair cuando haya match), en el mismo orden,
@@ -94,7 +92,7 @@ def ingest_emotions_llm(emotions: List[str] | None = None, per_emotion: int = 50
     results: Dict[str, Any] = {"indexed": 0, "by_emotion": {}, "source": "llm+music"}
     for emo in emotions:
         suggestions = llm.recommend_songs(emo, count=per_emotion)
-        # Preparar pares válidos title/artist
+        # Preparar pares validos title/artist
         pairs: List[Dict[str, str]] = []
         for s in suggestions:
             title = (s.get("title") or "").strip()
@@ -103,7 +101,7 @@ def ingest_emotions_llm(emotions: List[str] | None = None, per_emotion: int = 50
                 pairs.append({"title": title, "artist": artist})
         # Resolver en una sola llamada
         resolved = _resolve_batch_via_music_service(pairs, per_item_limit=1)
-        # Preparar textos a embeber con info del LLM (título+artista+emoción)
+        # Preparar textos a embeber con info del LLM (titulo+artista+emocion)
         docs: List[Dict[str, Any]] = []
         texts: List[str] = []
         for t in resolved:

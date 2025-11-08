@@ -1,7 +1,7 @@
-"""Configuración central del servicio MoodTune RAG.
+"""Configuracion central del servicio MoodTune RAG.
 
-Lee variables de entorno (via .env) y expone parámetros usados por Flask,
-OpenSearch, OpenAI y la lógica de RAG.
+Lee variables de entorno (via .env) y expone parametros usados por Flask,
+OpenSearch, OpenAI y la logica de RAG.
 """
 
 import os
@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 
 class Config:
-    # Cargar variables desde .env si está presente
+    # Cargar variables desde .env si esta presente
     load_dotenv()
 
     # Flask
@@ -37,14 +37,14 @@ class Config:
     # Provider defaults    
     MIN_TRACKS = int(os.getenv("MIN_TRACKS", "20"))
 
-    # Parámetros de ingesta (límite por emoción)
+    # Parametros de ingesta (limite por emocion)
     INGEST_LIMIT_PER_EMOTION = int(os.getenv("INGEST_LIMIT_PER_EMOTION", "200"))
 
     # Dev convenience: auto seed synthetic data on startup if index is empty
     AUTO_SEED_ON_START = os.getenv("AUTO_SEED_ON_START", "true").lower() == "true"
 
     # RAG defaults / mapping
-    # Valores de referencia para mapear emoción -> filtros (pueden relajarse)
+    # Valores de referencia para mapear emocion -> filtros (pueden relajarse)
     EMOTION_PARAMS = {
         "happy": {"valence": (0.6, 1.0), "energy": (0.5, 1.0)},
         "sad": {"valence": (0.0, 0.4), "energy": (0.0, 0.5)},

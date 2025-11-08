@@ -3,7 +3,7 @@
     "name": "MoodTune RAG Collection",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_postman_id": "b9f3aaf1-1b67-4a9a-9a8e-6c5d8f1f2a22",
-    "description": "Colección para probar el servicio RAG de MoodTune"
+    "description": "Coleccion para probar el servicio RAG de MoodTune"
   },
   "item": [
     {
@@ -117,7 +117,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"emotion\": \"relaxed\",\n  \"prompt\": \"Sugiere cómo usar estas canciones para estudiar\"\n}"
+          "raw": "{\n  \"emotion\": \"relaxed\",\n  \"prompt\": \"Sugiere como usar estas canciones para estudiar\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/llm/answer",
@@ -131,3 +131,4 @@
     {"key": "baseUrl", "value": "http://localhost:8010"}
   ]
 }
+

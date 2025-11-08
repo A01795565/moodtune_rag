@@ -8,7 +8,7 @@ bp = Blueprint("health", __name__)
 
 @bp.get("/health")
 def health():
-    """Devuelve estado básico del servicio para monitoreo."""
+    """Devuelve estado basico del servicio para monitoreo."""
     return jsonify({
         "status": "ok",
         "service": "moodtune_rag",

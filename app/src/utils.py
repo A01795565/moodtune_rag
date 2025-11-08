@@ -1,4 +1,4 @@
-"""Utilidades comunes (paginación, reintentos, helpers numéricos)."""
+"""Utilidades comunes (paginacion, reintentos, helpers numericos)."""
 
 import random
 import time
@@ -20,7 +20,7 @@ def clamp_pagination(limit, offset, max_limit=100):
 
 def backoff_retry(fn: Callable, max_tries: int = 3, base_delay: float = 0.5, jitter: float = 0.25):
     """Ejecuta `fn` con reintentos exponenciales simple.
-    Lanza la última excepción si falla.
+    Lanza la ultima excepcion si falla.
     """
     last_exc = None
     for i in range(max_tries):
@@ -36,7 +36,7 @@ def backoff_retry(fn: Callable, max_tries: int = 3, base_delay: float = 0.5, jit
 
 
 def relax_range(bounds: Tuple[float, float], step: float, min_val: float = 0.0, max_val: float = 1.0):
-    """Amplía el rango `bounds` simétricamente en `step` dentro de [min_val, max_val]."""
+    """Amplia el rango `bounds` simetricamente en `step` dentro de [min_val, max_val]."""
     lo, hi = bounds
     lo = max(min_val, lo - step)
     hi = min(max_val, hi + step)
