@@ -1,0 +1,133 @@
+{
+  "info": {
+    "name": "MoodTune RAG Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "b9f3aaf1-1b67-4a9a-9a8e-6c5d8f1f2a22",
+    "description": "Colección para probar el servicio RAG de MoodTune"
+  },
+  "item": [
+    {
+      "name": "Health /health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Admin Rebuild /admin/rebuild",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"per_emotion\": 50\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/rebuild",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "rebuild"]
+        }
+      }
+    },
+    {
+      "name": "Admin Seed /admin/seed",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"per_emotion\": 25\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/seed",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "seed"]
+        }
+      }
+    },
+    {
+      "name": "RAG Search /rag/search",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emotion\": \"happy\",\n  \"min_tracks\": 20\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/rag/search",
+          "host": ["{{baseUrl}}"],
+          "path": ["rag", "search"]
+        }
+      }
+    },
+    {
+      "name": "RAG Playlist /rag/playlist",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emotion\": \"sad\",\n  \"min_tracks\": 25\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/rag/playlist",
+          "host": ["{{baseUrl}}"],
+          "path": ["rag", "playlist"]
+        }
+      }
+    },
+    {
+      "name": "LLM Playlist Meta /llm/playlist-meta",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emotion\": \"happy\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/llm/playlist-meta",
+          "host": ["{{baseUrl}}"],
+          "path": ["llm", "playlist-meta"]
+        }
+      }
+    },
+    {
+      "name": "LLM Answer /llm/answer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emotion\": \"relaxed\",\n  \"prompt\": \"Sugiere cómo usar estas canciones para estudiar\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/llm/answer",
+          "host": ["{{baseUrl}}"],
+          "path": ["llm", "answer"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:8010"}
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
+      "knn": true,
+      "analysis": {
+        "analyzer": {
+          "folding": {
+            "tokenizer": "standard",
+            "filter": ["lowercase", "asciifolding"]
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {"type": "keyword"},
+      "external_id": {"type": "keyword"},
+      "provider": {"type": "keyword"},
+      "source": {"type": "keyword"},
+      "image_url": {"type": "keyword"},
+      "thumbnail_url": {"type": "keyword"},
+      "llm_text": {"type": "text", "analyzer": "folding"},
+      "embedding": {
+        "type": "knn_vector",
+        "dimension": 1536,
+        "method": {
+          "engine": "lucene",
+          "space_type": "cosinesimil",
+          "name": "hnsw"
+        }
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "folding",
+        "fields": {
+          "raw": {"type": "keyword", "ignore_above": 256}
+        }
+      },
+      "artist": {
+        "type": "text",
+        "analyzer": "folding",
+        "fields": {
+          "raw": {"type": "keyword", "ignore_above": 256}
+        }
+      },
+      "uri": {"type": "keyword"},
+      "preview_url": {"type": "keyword"},
+      "mood": {"type": "keyword"},
+      "valence": {"type": "float"},
+      "energy": {"type": "float"},
+      "created_at": {"type": "date", "format": "strict_date_optional_time||epoch_millis"}
+    }
+  }
+}

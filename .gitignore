@@ -1,0 +1,35 @@
+# macOS metadata
+.DS_Store
+
+# Environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Ignore python cache files
+__pycache__/
+.pytest_cache/
+
+# Temporary files
+tmp/
+
+# Docker files
+docker-compose.override.yml 
+docker-compose.dev.yml
+docker-compose.test.yml
+docker-compose.prod.yml
+
+# IDEs
+.vscode/
+.idea/
+*.pyc
+*.pyo
+

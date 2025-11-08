@@ -1,0 +1,291 @@
+openapi: 3.0.3
+info:
+  title: MoodTune RAG API
+  version: "1.0.0"
+  description: |
+    API REST para el servicio RAG de MoodTune. Provee:
+    - Búsqueda de canciones por emoción (OpenSearch)
+    - Generación de título y descripción de playlists (OpenAI)
+    - Respuestas LLM usando emoción + contexto de canciones
+
+    Este servicio no crea playlists en proveedores; devuelve `uris` para que otro servicio las cree.
+  termsOfService: https://moodtune.com/terms
+  contact:
+    name: Equipo 26 — MoodTune
+    url: https://moodtune.com/moodtune
+    email: equipo26@moodtune.com
+
+servers:
+  - url: http://localhost:8010
+    description: Entorno local de desarrollo
+
+tags:
+  - name: Health
+    description: Estado del servicio
+  - name: RAG
+    description: Búsqueda en OpenSearch y armado de playlists
+  - name: LLM
+    description: Generación de metadatos y respuestas con OpenAI
+  - name: Admin
+    description: Utilidades de administración (solo dev)
+
+# Este servicio no requiere autenticación por defecto
+security: []
+
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Verificación de salud del servicio
+      operationId: ragHealthCheck
+      responses:
+        "200":
+          description: Servicio operativo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+              examples:
+                ok:
+                  value: { status: ok }
+
+  /rag/search:
+    post:
+      tags: [RAG]
+      summary: Buscar canciones por emoción (RAG)
+      operationId: ragSearchTracks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RAGSearchRequest"
+            examples:
+              default:
+                value: { emotion: happy, min_tracks: 20 }
+      responses:
+        "200":
+          description: Lista de canciones
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RAGSearchResponse"
+        "400": { description: Petición inválida, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+
+  /rag/playlist:
+    post:
+      tags: [RAG]
+      summary: Generar playlist (título/descripcion + canciones)
+      operationId: ragBuildPlaylist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RAGSearchRequest"
+            examples:
+              default:
+                value: { emotion: sad, min_tracks: 25 }
+      responses:
+        "200":
+          description: Playlist sugerida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaylistResponse"
+        "400": { description: Petición inválida, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+
+  /llm/playlist-meta:
+    post:
+      tags: [LLM]
+      summary: Generar título y descripción para playlist
+      operationId: llmPlaylistMeta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emotion: { type: string, description: Emoción objetivo, example: happy }
+              required: [emotion]
+      responses:
+        "200":
+          description: Metadatos generados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMPlaylistMetaResponse"
+        "400": { description: Petición inválida, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+
+  /llm/answer:
+    post:
+      tags: [LLM]
+      summary: Responder usando emoción + contexto de canciones
+      operationId: llmAnswerWithEmotion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LLMAnswerRequest"
+            examples:
+              default:
+                value: { emotion: relaxed, prompt: "Sugiere cómo usar estas canciones para estudiar" }
+      responses:
+        "200":
+          description: Respuesta generada por LLM
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LLMAnswerResponse"
+        "400": { description: Petición inválida, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+
+  /admin/seed:
+    post:
+      tags: [Admin]
+      summary: Precargar colección de conocimiento por emoción
+      operationId: adminSeedKnowledge
+      description: |
+        Precarga documentos por emoción en el índice. Si hay credenciales de Spotify, ingesta real;
+        en caso contrario, genera documentos sintéticos para desarrollo.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                per_emotion: { type: integer, default: 25 }
+      responses:
+        "201":
+          description: Resultado de la siembra
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  indexed: { type: integer }
+                  by_emotion:
+                    type: object
+                    additionalProperties: { type: integer }
+                  source: { type: string, enum: ["llm+music"] }
+        "400": { description: Petición inválida, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+
+  /admin/rebuild:
+    post:
+      tags: [Admin]
+      summary: Recrear A-ndice y reingestar conocimiento (LLM + music)
+      operationId: adminRebuildIndex
+      description: |
+        Elimina el A-ndice actual y lo crea con el mapping actualizado (kNN + campos de imagen).
+        Luego reingesta documentos por emociA3n usando LLM + resoluciA3n pA�blica vA-a `moodtune_music`.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                per_emotion: { type: integer, default: 50 }
+      responses:
+        "201":
+          description: A-ndice recreado e ingesta realizada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  index: { type: string, example: moodtune_tracks }
+                  indexed: { type: integer }
+                  by_emotion:
+                    type: object
+                    additionalProperties: { type: integer }
+                  source: { type: string, enum: ["llm+music"] }
+        "400": { description: PeticiA3n invA�lida, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status: { type: string, example: ok }
+
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+        detail: { type: string }
+
+    TrackDoc:
+      type: object
+      properties:
+        id: { type: string, example: 6rqhFgbbKwnb9MLmUQDhG6 }
+        title: { type: string, example: Song Title }
+        artist: { type: string, example: Artist Name }
+        uri: { type: string, example: spotify:track:6rqhFgbbKwnb9MLmUQDhG6 }
+        preview_url: { type: string, nullable: true }
+        image_url: { type: string, nullable: true }
+        thumbnail_url: { type: string, nullable: true }
+        mood: { type: string, example: happy }
+        valence: { type: number, format: float, example: 0.72 }
+        energy: { type: number, format: float, example: 0.63 }
+
+    RAGSearchRequest:
+      type: object
+      properties:
+        emotion:
+          type: string
+          description: Emoción objetivo
+          example: happy
+        min_tracks:
+          type: integer
+          description: Mínimo de pistas deseado
+          example: 20
+      required: [emotion]
+
+    RAGSearchResponse:
+      type: object
+      properties:
+        emotion: { type: string }
+        requested_min: { type: integer }
+        returned: { type: integer }
+        note: { type: string, nullable: true }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/TrackDoc" }
+
+    PlaylistResponse:
+      type: object
+      properties:
+        emotion: { type: string }
+        title: { type: string }
+        description: { type: string }
+        returned: { type: integer }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/TrackDoc" }
+        uris:
+          type: array
+          items: { type: string, example: spotify:track:6rqhFgbbKwnb9MLmUQDhG6 }
+        note: { type: string, nullable: true }
+
+    LLMPlaylistMetaResponse:
+      type: object
+      properties:
+        title: { type: string }
+        description: { type: string }
+
+    LLMAnswerRequest:
+      type: object
+      properties:
+        emotion: { type: string, example: relaxed }
+        prompt: { type: string, example: "Sugiere cómo usar estas canciones para estudiar" }
+      required: [emotion, prompt]
+
+    LLMAnswerResponse:
+      type: object
+      properties:
+        emotion: { type: string }
+        prompt: { type: string }
+        answer: { type: string }
