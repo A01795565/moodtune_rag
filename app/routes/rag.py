@@ -1,4 +1,6 @@
 """Endpoints RAG para buscar pistas y armar playlist sugerida."""
+import random
+
 from flask import Blueprint, jsonify, request
 from ..src.rag_pipeline import RAGPipeline
 from ..src.opensearch_client import OpenSearchRepo
@@ -18,7 +20,8 @@ def search_tracks():
     try:
         p = request.get_json(force=True) or {}
         emotion = (p.get("emotion") or "relaxed").lower()
-        min_tracks = int(p.get("min_tracks") or Config.MIN_TRACKS)
+        requested_min = int(p.get("min_tracks") or Config.MIN_TRACKS)
+        min_tracks = max(Config.MIN_TRACKS, requested_min)
 
         repo = OpenSearchRepo()
         rag = RAGPipeline(repo)
@@ -108,6 +111,7 @@ def search_tracks():
             except Exception:
                 augmented = []
 
+        random.shuffle(augmented)
         # 3) Mezclar sin duplicados (prioriza KB, luego LLM)
         merged = []
         seen = set()
@@ -120,6 +124,8 @@ def search_tracks():
                     continue
                 seen.add(k)
                 merged.append(it)
+
+        random.shuffle(merged)
 
         # 4) Guardar en OpenSearch (upsert). Añadir embedding/llm_text cuando sea posible
         indexed = 0

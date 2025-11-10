@@ -8,6 +8,8 @@ Expone operaciones comunes:
 """
 
 from typing import List, Dict, Any
+from random import randint
+
 from opensearchpy import OpenSearch, NotFoundError
 from .config import Config
 
@@ -24,7 +26,15 @@ class OpenSearchRepo:
         )
         self.index = Config.OS_INDEX_TRACKS
 
-    def search_tracks_by_emotion(self, emotion: str, valence: tuple, energy: tuple, limit: int = 20) -> List[Dict[str, Any]]:
+    def search_tracks_by_emotion(
+        self,
+        emotion: str,
+        valence: tuple,
+        energy: tuple,
+        limit: int = 20,
+        randomize: bool = False,
+        seed: int | None = None,
+    ) -> List[Dict[str, Any]]:
         """Busca documentos por emocion aplicando filtros de `valence` y `energy`.
 
         Devuelve una lista de fuentes (_source) con los campos relevantes.
@@ -39,6 +49,15 @@ class OpenSearchRepo:
             must_filters.append({"term": {"mood": emotion}})
 
         query = {"bool": {"must": must_filters}} if must_filters else {"match_all": {}}
+        if randomize:
+            rand_seed = seed if seed is not None else randint(0, 2 ** 31 - 1)
+            query = {
+                "function_score": {
+                    "query": query,
+                    "random_score": {"seed": rand_seed},
+                    "boost_mode": "sum",
+                }
+            }
         body = {
             "size": limit,
             "query": query,

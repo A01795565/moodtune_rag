@@ -27,6 +27,8 @@ docker-compose.dev.yml
 docker-compose.test.yml
 docker-compose.prod.yml
 
+.data/
+
 # IDEs
 .vscode/
 .idea/

@@ -26,6 +26,8 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
+    volumes:
+      - ./.data/opensearch:/usr/share/opensearch/data
 
   dashboards:
     image: opensearchproject/opensearch-dashboards:3.0.0

@@ -35,7 +35,7 @@ class Config:
     MUSIC_SERVICE_URL = os.getenv("MUSIC_SERVICE_URL", "http://localhost:8020")
        
     # Provider defaults    
-    MIN_TRACKS = int(os.getenv("MIN_TRACKS", "20"))
+    MIN_TRACKS = max(20, int(os.getenv("MIN_TRACKS", "20")))
 
     # Parametros de ingesta (limite por emocion)
     INGEST_LIMIT_PER_EMOTION = int(os.getenv("INGEST_LIMIT_PER_EMOTION", "200"))
