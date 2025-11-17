@@ -33,6 +33,22 @@ tags:
 security: []
 
 paths:
+  /:
+    get:
+      tags: [Health]
+      summary: Endpoint raíz - estado de aplicación
+      operationId: ragRoot
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name: { type: string, example: moodtune_rag }
+                  status: { type: string, example: ok }
+
   /health:
     get:
       tags: [Health]

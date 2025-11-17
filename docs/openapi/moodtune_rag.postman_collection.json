@@ -1,134 +1,1095 @@
 {
-  "info": {
-    "name": "MoodTune RAG Collection",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_postman_id": "b9f3aaf1-1b67-4a9a-9a8e-6c5d8f1f2a22",
-    "description": "Coleccion para probar el servicio RAG de MoodTune"
-  },
-  "item": [
-    {
-      "name": "Health /health",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/health",
-          "host": ["{{baseUrl}}"],
-          "path": ["health"]
-        }
-      }
-    },
-    {
-      "name": "Admin Rebuild /admin/rebuild",
-      "request": {
-        "method": "POST",
-        "header": [
-          {"key": "Content-Type", "value": "application/json"}
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"per_emotion\": 50\n}"
+    "item": [
+        {
+            "name": "/",
+            "description": "",
+            "item": [
+                {
+                    "id": "6746ed89-aa90-4b72-9e29-2edbc364779e",
+                    "name": "Endpoint raíz - estado de aplicación",
+                    "request": {
+                        "name": "Endpoint raíz - estado de aplicación",
+                        "description": {},
+                        "url": {
+                            "path": [
+                                ""
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "method": "GET",
+                        "body": {},
+                        "auth": null
+                    },
+                    "response": [
+                        {
+                            "id": "dea1f84c-c7ee-4ebf-92de-8d056924436d",
+                            "name": "OK",
+                            "originalRequest": {
+                                "url": {
+                                    "path": [
+                                        ""
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"name\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                            "cookie": [],
+                            "_postman_previewlanguage": "json"
+                        }
+                    ],
+                    "event": [],
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    }
+                }
+            ]
         },
-        "url": {
-          "raw": "{{baseUrl}}/admin/rebuild",
-          "host": ["{{baseUrl}}"],
-          "path": ["admin", "rebuild"]
-        }
-      }
-    },
-    {
-      "name": "Admin Seed /admin/seed",
-      "request": {
-        "method": "POST",
-        "header": [
-          {"key": "Content-Type", "value": "application/json"}
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"per_emotion\": 25\n}"
+        {
+            "name": "health",
+            "description": "",
+            "item": [
+                {
+                    "id": "de902924-d248-47e3-872c-09683dba580c",
+                    "name": "Verificacion de salud del servicio",
+                    "request": {
+                        "name": "Verificacion de salud del servicio",
+                        "description": {},
+                        "url": {
+                            "path": [
+                                "health"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "method": "GET",
+                        "body": {},
+                        "auth": null
+                    },
+                    "response": [
+                        {
+                            "id": "af37bb8a-01cd-46d8-b989-3eb3dd822dfb",
+                            "name": "Servicio operativo",
+                            "originalRequest": {
+                                "url": {
+                                    "path": [
+                                        "health"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"status\": \"<string>\"\n}",
+                            "cookie": [],
+                            "_postman_previewlanguage": "json"
+                        }
+                    ],
+                    "event": [],
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    }
+                }
+            ]
         },
-        "url": {
-          "raw": "{{baseUrl}}/admin/seed",
-          "host": ["{{baseUrl}}"],
-          "path": ["admin", "seed"]
-        }
-      }
-    },
-    {
-      "name": "RAG Search /rag/search",
-      "request": {
-        "method": "POST",
-        "header": [
-          {"key": "Content-Type", "value": "application/json"}
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"emotion\": \"happy\",\n  \"min_tracks\": 20\n}"
+        {
+            "name": "rag",
+            "description": "",
+            "item": [
+                {
+                    "name": "search",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "e818e783-95cb-4424-a597-422c02cf5bcf",
+                            "name": "Buscar canciones por emocion (RAG)",
+                            "request": {
+                                "name": "Buscar canciones por emocion (RAG)",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "rag",
+                                        "search"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"emotion\": \"<string>\",\n  \"min_tracks\": \"<integer>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "affacac6-6bdd-435d-9767-f28ae0477a7a",
+                                    "name": "Lista de canciones",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "rag",
+                                                "search"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"emotion\": \"<string>\",\n  \"min_tracks\": \"<integer>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"emotion\": \"<string>\",\n  \"requested_min\": \"<integer>\",\n  \"returned\": \"<integer>\",\n  \"note\": \"<string>\",\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"artist\": \"<string>\",\n      \"uri\": \"<string>\",\n      \"preview_url\": \"<string>\",\n      \"image_url\": \"<string>\",\n      \"thumbnail_url\": \"<string>\",\n      \"mood\": \"<string>\",\n      \"valence\": \"<float>\",\n      \"energy\": \"<float>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"artist\": \"<string>\",\n      \"uri\": \"<string>\",\n      \"preview_url\": \"<string>\",\n      \"image_url\": \"<string>\",\n      \"thumbnail_url\": \"<string>\",\n      \"mood\": \"<string>\",\n      \"valence\": \"<float>\",\n      \"energy\": \"<float>\"\n    }\n  ]\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "e3056ebc-6b4e-44dd-b448-f23298709bef",
+                                    "name": "Peticion invalida",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "rag",
+                                                "search"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"emotion\": \"<string>\",\n  \"min_tracks\": \"<integer>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"error\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "playlist",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "ae14f840-9fbc-467f-b066-dcee79899408",
+                            "name": "Generar playlist (titulo/descripcion + canciones)",
+                            "request": {
+                                "name": "Generar playlist (titulo/descripcion + canciones)",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "rag",
+                                        "playlist"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"emotion\": \"<string>\",\n  \"min_tracks\": \"<integer>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "ff1f9af1-f8d0-4253-9df6-370b7801ff8f",
+                                    "name": "Playlist sugerida",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "rag",
+                                                "playlist"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"emotion\": \"<string>\",\n  \"min_tracks\": \"<integer>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"emotion\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"returned\": \"<integer>\",\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"artist\": \"<string>\",\n      \"uri\": \"<string>\",\n      \"preview_url\": \"<string>\",\n      \"image_url\": \"<string>\",\n      \"thumbnail_url\": \"<string>\",\n      \"mood\": \"<string>\",\n      \"valence\": \"<float>\",\n      \"energy\": \"<float>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"artist\": \"<string>\",\n      \"uri\": \"<string>\",\n      \"preview_url\": \"<string>\",\n      \"image_url\": \"<string>\",\n      \"thumbnail_url\": \"<string>\",\n      \"mood\": \"<string>\",\n      \"valence\": \"<float>\",\n      \"energy\": \"<float>\"\n    }\n  ],\n  \"uris\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"note\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "d84709f2-9e54-4c9c-8a86-b9dae8c15eca",
+                                    "name": "Peticion invalida",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "rag",
+                                                "playlist"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"emotion\": \"<string>\",\n  \"min_tracks\": \"<integer>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"error\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                }
+            ]
         },
-        "url": {
-          "raw": "{{baseUrl}}/rag/search",
-          "host": ["{{baseUrl}}"],
-          "path": ["rag", "search"]
-        }
-      }
-    },
-    {
-      "name": "RAG Playlist /rag/playlist",
-      "request": {
-        "method": "POST",
-        "header": [
-          {"key": "Content-Type", "value": "application/json"}
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"emotion\": \"sad\",\n  \"min_tracks\": 25\n}"
+        {
+            "name": "llm",
+            "description": "",
+            "item": [
+                {
+                    "name": "playlist-meta",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "83e481bb-1c9e-4076-af5e-ff4e7fb093c5",
+                            "name": "Generar titulo y descripcion para playlist",
+                            "request": {
+                                "name": "Generar titulo y descripcion para playlist",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "llm",
+                                        "playlist-meta"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"emotion\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "04fe4b07-c82d-4592-b4ed-f77a8d562f6a",
+                                    "name": "Metadatos generados",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "llm",
+                                                "playlist-meta"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"emotion\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "4e59d068-38b4-4779-bd88-fce6f4713ba8",
+                                    "name": "Peticion invalida",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "llm",
+                                                "playlist-meta"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"emotion\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"error\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "answer",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "6cfa94d9-a1eb-47da-ba7e-b2294a689abb",
+                            "name": "Responder usando emocion + contexto de canciones",
+                            "request": {
+                                "name": "Responder usando emocion + contexto de canciones",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "llm",
+                                        "answer"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"emotion\": \"<string>\",\n  \"prompt\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "1c8cb7d2-c3b6-456c-88f2-6bb9cb17ccc4",
+                                    "name": "Respuesta generada",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "llm",
+                                                "answer"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"emotion\": \"<string>\",\n  \"prompt\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"emotion\": \"<string>\",\n  \"prompt\": \"<string>\",\n  \"answer\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "95f6f683-1fef-4695-8d5d-2bda6759626a",
+                                    "name": "Peticion invalida",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "llm",
+                                                "answer"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"emotion\": \"<string>\",\n  \"prompt\": \"<string>\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"error\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                }
+            ]
         },
-        "url": {
-          "raw": "{{baseUrl}}/rag/playlist",
-          "host": ["{{baseUrl}}"],
-          "path": ["rag", "playlist"]
+        {
+            "name": "admin",
+            "description": "",
+            "item": [
+                {
+                    "name": "seed",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "fb7f5359-b2ff-47d9-9520-71b38fcbf725",
+                            "name": "Precargar indice con datos (LLM + music)",
+                            "request": {
+                                "name": "Precargar indice con datos (LLM + music)",
+                                "description": {},
+                                "url": {
+                                    "path": [
+                                        "admin",
+                                        "seed"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"per_emotion\": 25\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "e80c8784-9575-4bec-819b-657dc60a8538",
+                                    "name": "Ingesta realizada",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "admin",
+                                                "seed"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"per_emotion\": 25\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"indexed\": \"<integer>\",\n  \"by_emotion\": {\n    \"key_0\": \"<integer>\"\n  },\n  \"source\": \"llm+music\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "b59a1173-ff04-4f6d-b058-2ce8947fc63c",
+                                    "name": "Peticion invalida",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "admin",
+                                                "seed"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"per_emotion\": 25\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"error\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "rebuild",
+                    "description": "",
+                    "item": [
+                        {
+                            "id": "ad4c66de-a310-437c-a7ff-be64c7384ab9",
+                            "name": "Recrear indice y reingestar conocimiento (LLM + music)",
+                            "request": {
+                                "name": "Recrear indice y reingestar conocimiento (LLM + music)",
+                                "description": {
+                                    "content": "Elimina el indice actual y lo crea con el mapping actualizado (kNN + campos de imagen).\nLuego reingesta documentos por emocion usando LLM + resolucion publica via `moodtune_music`.\n",
+                                    "type": "text/plain"
+                                },
+                                "url": {
+                                    "path": [
+                                        "admin",
+                                        "rebuild"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"per_emotion\": 50\n}",
+                                    "options": {
+                                        "raw": {
+                                            "headerFamily": "json",
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "auth": null
+                            },
+                            "response": [
+                                {
+                                    "id": "395a75c1-a8ce-4f13-8ab3-0fb86856dbda",
+                                    "name": "Indice recreado e ingesta realizada",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "admin",
+                                                "rebuild"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"per_emotion\": 50\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Created",
+                                    "code": 201,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"index\": \"<string>\",\n  \"indexed\": \"<integer>\",\n  \"by_emotion\": {\n    \"key_0\": \"<integer>\",\n    \"key_1\": \"<integer>\",\n    \"key_2\": \"<integer>\"\n  },\n  \"source\": \"llm+music\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                },
+                                {
+                                    "id": "5830ce5d-3846-4da7-b9f9-1c63e1e2c156",
+                                    "name": "Peticion invalida",
+                                    "originalRequest": {
+                                        "url": {
+                                            "path": [
+                                                "admin",
+                                                "rebuild"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "header": [
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json"
+                                            },
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json"
+                                            }
+                                        ],
+                                        "method": "POST",
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n  \"per_emotion\": 50\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "headerFamily": "json",
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": "{\n  \"error\": \"<string>\",\n  \"detail\": \"<string>\"\n}",
+                                    "cookie": [],
+                                    "_postman_previewlanguage": "json"
+                                }
+                            ],
+                            "event": [],
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            }
+                        }
+                    ]
+                }
+            ]
         }
-      }
-    },
-    {
-      "name": "LLM Playlist Meta /llm/playlist-meta",
-      "request": {
-        "method": "POST",
-        "header": [
-          {"key": "Content-Type", "value": "application/json"}
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"emotion\": \"happy\"\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/llm/playlist-meta",
-          "host": ["{{baseUrl}}"],
-          "path": ["llm", "playlist-meta"]
+    ],
+    "event": [],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8010"
         }
-      }
-    },
-    {
-      "name": "LLM Answer /llm/answer",
-      "request": {
-        "method": "POST",
-        "header": [
-          {"key": "Content-Type", "value": "application/json"}
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"emotion\": \"relaxed\",\n  \"prompt\": \"Sugiere como usar estas canciones para estudiar\"\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/llm/answer",
-          "host": ["{{baseUrl}}"],
-          "path": ["llm", "answer"]
+    ],
+    "info": {
+        "_postman_id": "d5dfba7c-aea8-47ef-b036-11ebbe5927f3",
+        "name": "MoodTune RAG API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": {
+            "content": "API REST para el servicio RAG de MoodTune. Provee:\n- Busqueda de canciones por emocion (OpenSearch)\n- Generacion de titulo y descripcion de playlists (OpenAI)\n- Respuestas LLM usando emocion + contexto de canciones\n\nEste servicio no crea playlists en proveedores; devuelve `uris` para que otro servicio las cree.\n\n\nContact Support:\n Name: Equipo 26 - MoodTune\n Email: equipo26@moodtune.com",
+            "type": "text/plain"
         }
-      }
     }
-  ],
-  "variable": [
-    {"key": "baseUrl", "value": "http://localhost:8010"}
-  ]
 }
-
